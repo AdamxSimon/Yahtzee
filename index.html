@@ -10,19 +10,23 @@
   <body>
     <div id="root">
       <div id="dice-container"></div>
+      <div id="move-container"></div>
     </div>
 
     <!-- Scripts -->
 
     <script src="./scripts/utils.js"></script>
     <script src="./scripts/die.js"></script>
+    <script src="./scripts/button.js"></script>
     <script src="./scripts/game.js"></script>
 
     <!-- Initialization -->
 
     <script>
       const dice_container = document.getElementById("dice-container");
-      const game = new Game({ dice_container });
+      const move_container = document.getElementById("move-container");
+
+      const game = new Game({ dice_container, move_container });
       game.start();
     </script>
   </body>
