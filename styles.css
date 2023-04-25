@@ -39,10 +39,24 @@ body {
   cursor: pointer;
 }
 
+.rolling {
+  animation: roll 1s linear;
+}
+
 .button {
   background-color: green;
   padding: 8px 16px;
   border-radius: 4px;
   color: white;
   cursor: pointer;
+}
+
+@keyframes roll {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(1440deg);
+  }
 }
