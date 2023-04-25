@@ -39,6 +39,11 @@ body {
   cursor: pointer;
 }
 
+.die.held {
+  background-color: green;
+  color: white;
+}
+
 .rolling {
   animation: roll 1s linear;
 }

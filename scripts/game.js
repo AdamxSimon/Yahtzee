@@ -3,16 +3,25 @@ class Game {
     this.dice_container = config.dice_container;
     this.move_container = config.move_container;
 
+    this.isRolling = false;
+
     this.dice =
       config.dice ||
       [1, 2, 3, 4, 5].map(
-        (value, index) => new Die({ initial_value: value, id: index })
+        (value, index) =>
+          new Die({ game: this, initial_value: value, id: index })
       );
   }
 
-  rollDice() {
-    for (const die in this.dice) {
-      this.dice[die].roll();
+  async rollDice() {
+    if (!this.isRolling) {
+      this.isRolling = true;
+
+      const dice_to_roll = this.dice.filter((die) => !die.isHeld);
+
+      await Promise.all(dice_to_roll.map((die, index) => die.roll(index)));
+
+      this.isRolling = false;
     }
   }
 
