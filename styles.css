@@ -1,0 +1,39 @@
+* {
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+  user-select: none;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#dice-container {
+  display: flex;
+  gap: 16px;
+}
+
+.die {
+  height: 40px;
+  width: 40px;
+  background-color: white;
+  border-radius: 4px;
+  box-shadow: 0 0 4px 0 black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
