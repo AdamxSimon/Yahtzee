@@ -8,13 +8,18 @@ class Button {
     if (this.should_delay_confirmation) {
       this.element.classList.add("delayed-confirmation");
       this.element.onanimationend = () => {
-        config.callback();
+        if (!this.element.classList.contains("disabled")) {
+          config.callback();
+        }
       };
     }
 
     this.element.innerHTML = config.content;
     this.element.onclick = () => {
-      if (!this.should_delay_confirmation) {
+      if (
+        !this.should_delay_confirmation &&
+        !this.element.classList.contains("disabled")
+      ) {
         config.callback();
       }
     };

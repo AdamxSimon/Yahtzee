@@ -4,6 +4,8 @@ class Game {
     this.dice_container = config.dice_container;
     this.move_container = config.move_container;
 
+    this.mode = "move";
+
     this.turn_dots = [1, 2, 3].map((id) => {
       const element = document.createElement("div");
       element.className = "turn-dot";
@@ -23,13 +25,17 @@ class Game {
       );
   }
 
-  advanceTurn() {
-    if (this.current_turn <= 3) {
-      this.current_turn++;
-      this.turn_dots[this.current_turn - 2].classList.add("completed");
-    } else {
-      this.resetTurns();
+  enterMode(mode) {
+    this.mode = mode;
+    switch (mode) {
+      case "score":
+        break;
     }
+  }
+
+  advanceTurn() {
+    this.current_turn++;
+    this.turn_dots[this.current_turn - 2].classList.add("completed");
   }
 
   resetTurns() {
@@ -39,8 +45,16 @@ class Game {
     });
   }
 
+  toggleMovesAccess() {
+    for (const child of this.move_container.children) {
+      child.classList.toggle("delayed-confirmation");
+      child.classList.toggle("disabled");
+    }
+  }
+
   async rollDice() {
     if (!this.isRolling) {
+      this.toggleMovesAccess();
       this.advanceTurn();
 
       this.isRolling = true;
@@ -50,6 +64,12 @@ class Game {
       await Promise.all(dice_to_roll.map((die, index) => die.roll(index)));
 
       this.isRolling = false;
+
+      if (this.current_turn > 3) {
+        this.enterMode("score");
+      } else {
+        this.toggleMovesAccess();
+      }
     }
   }
 
