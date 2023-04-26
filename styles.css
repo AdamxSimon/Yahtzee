@@ -48,12 +48,47 @@ body {
   animation: roll 1s linear;
 }
 
+#move-container {
+  display: flex;
+  gap: 16px;
+}
+
 .button {
   background-color: green;
   padding: 8px 16px;
   border-radius: 4px;
+  position: relative;
+  text-align: center;
   color: white;
   cursor: pointer;
+}
+
+.button.delayed-confirmation {
+  background-color: transparent;
+  overflow: hidden;
+}
+
+.button.delayed-confirmation::before,
+.button.delayed-confirmation::after {
+  content: "";
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+
+.button.delayed-confirmation::before {
+  width: 100%;
+  background-color: orange;
+}
+
+.button.delayed-confirmation::after {
+  background-color: green;
+}
+
+.button.delayed-confirmation:active::after {
+  animation: confirm 1s ease forwards;
 }
 
 @keyframes roll {
@@ -63,5 +98,15 @@ body {
 
   to {
     transform: rotate(1440deg);
+  }
+}
+
+@keyframes confirm {
+  from {
+    width: 0;
+  }
+
+  to {
+    width: 100%;
   }
 }

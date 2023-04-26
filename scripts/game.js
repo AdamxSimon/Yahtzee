@@ -33,5 +33,12 @@ class Game {
     this.move_container.append(
       new Button({ content: "Roll", callback: () => this.rollDice() }).element
     );
+    this.move_container.append(
+      new Button({
+        content: "Score",
+        callback: () => console.log("Score"),
+        should_delay_confirmation: true,
+      }).element
+    );
   }
 }
