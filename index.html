@@ -9,6 +9,7 @@
   </head>
   <body>
     <div id="root">
+      <div id="turn-indicator"></div>
       <div id="dice-container"></div>
       <div id="move-container"></div>
     </div>
@@ -23,10 +24,11 @@
     <!-- Initialization -->
 
     <script>
+      const turn_indicator = document.getElementById("turn-indicator");
       const dice_container = document.getElementById("dice-container");
       const move_container = document.getElementById("move-container");
 
-      const game = new Game({ dice_container, move_container });
+      const game = new Game({ turn_indicator, dice_container, move_container });
       game.start();
     </script>
   </body>

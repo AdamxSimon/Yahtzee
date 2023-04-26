@@ -22,6 +22,22 @@ body {
   gap: 16px;
 }
 
+#turn-indicator {
+  display: flex;
+  gap: 16px;
+}
+
+.turn-dot {
+  height: 8px;
+  width: 8px;
+  border: 1px solid black;
+  border-radius: 50%;
+}
+
+.turn-dot.completed {
+  background-color: black;
+}
+
 #dice-container {
   display: flex;
   gap: 16px;
