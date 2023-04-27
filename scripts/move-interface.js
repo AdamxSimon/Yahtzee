@@ -19,16 +19,15 @@ class MoveInterface {
   }
 
   toggleButtonAccess() {
-    for (const child of this.element.children) {
-      child.classList.toggle("delayed-confirmation");
-      child.classList.toggle("disabled");
-    }
+    this.buttons.forEach((button) => {
+      button.toggleAccess();
+    });
   }
 
   initialize() {
     this.game.container.append(this.element);
     this.buttons.forEach((button) => {
-      this.element.append(button.element);
+      button.initialize(this.element);
     });
   }
 }

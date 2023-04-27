@@ -16,6 +16,11 @@ class Game {
 
   enterMode(mode) {
     this.current_mode = mode;
+    switch (mode) {
+      case "score":
+        this.dice_tray.should_allow_interaction = false;
+        break;
+    }
   }
 
   advanceTurn() {

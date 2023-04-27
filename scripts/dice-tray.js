@@ -3,6 +3,8 @@ class DiceTray {
     this.element = document.createElement("div");
     this.element.id = "dice-tray";
 
+    this.should_allow_interaction = true;
+
     this.isRolling = false;
 
     this.dice = new Array(max_dice).fill().map(() => new Die(this));

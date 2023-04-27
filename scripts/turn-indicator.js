@@ -5,30 +5,23 @@ class TurnIndicator {
 
     this.max_turns = max_turns;
 
-    this.dots = new Array(this.max_turns)
-      .fill("turn-dot")
-      .map((value, index) => {
-        const element = document.createElement("div");
-        element.className = value;
-        element.id = index + 1;
-        return element;
-      });
+    this.dots = new Array(this.max_turns).fill().map(() => new TurnDot());
   }
 
   advance(turn) {
-    this.dots[turn - 2].classList.add("completed");
+    this.dots[turn - 2].fill();
   }
 
   reset() {
     this.dots.forEach((dot) => {
-      dot.classList.remove("completed");
+      dot.reset();
     });
   }
 
   initialize(container) {
     container.append(this.element);
     this.dots.forEach((dot) => {
-      this.element.append(dot);
+      dot.initialize(this.element);
     });
   }
 }

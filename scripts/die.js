@@ -1,8 +1,8 @@
 class Die {
   constructor(tray) {
     this.tray = tray;
-    this.value = getRandomDieValue();
 
+    this.value = getRandomDieValue();
     this.isHeld = false;
 
     this.element = document.createElement("div");
@@ -13,7 +13,7 @@ class Die {
   }
 
   toggleHold() {
-    if (!this.tray.isRolling) {
+    if (this.tray.should_allow_interaction && !this.tray.isRolling) {
       this.isHeld = !this.isHeld;
       this.element.classList.toggle("held");
     }
