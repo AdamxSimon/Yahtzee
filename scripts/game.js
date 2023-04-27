@@ -1,17 +1,14 @@
 class Game {
   constructor(config) {
-    this.turn_indicator = config.turn_indicator;
+    this.container = config.container;
+
+    this.max_turns = 3;
+
+    this.turn_indicator = new TurnIndicator(this.max_turns);
     this.dice_container = config.dice_container;
     this.move_container = config.move_container;
 
     this.mode = "move";
-
-    this.turn_dots = [1, 2, 3].map((id) => {
-      const element = document.createElement("div");
-      element.className = "turn-dot";
-      element.id = id;
-      return element;
-    });
 
     this.current_turn = 1;
 
@@ -35,14 +32,12 @@ class Game {
 
   advanceTurn() {
     this.current_turn++;
-    this.turn_dots[this.current_turn - 2].classList.add("completed");
+    this.turn_indicator.advance(this.current_turn);
   }
 
   resetTurns() {
     this.current_turn = 1;
-    this.turn_dots.forEach((dot) => {
-      dot.classList.remove("completed");
-    });
+    this.turn_indicator.reset();
   }
 
   toggleMovesAccess() {
@@ -73,10 +68,8 @@ class Game {
     }
   }
 
-  start() {
-    this.turn_dots.forEach((dot) => {
-      this.turn_indicator.append(dot);
-    });
+  initialize() {
+    this.turn_indicator.initialize(this.container);
 
     this.dice.forEach((die) => {
       this.dice_container.append(die.element);
