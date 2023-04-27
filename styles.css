@@ -38,7 +38,7 @@ body {
   background-color: black;
 }
 
-#dice-container {
+#dice-tray {
   display: flex;
   gap: 16px;
 }

@@ -3,31 +3,19 @@ class Game {
     this.container = config.container;
 
     this.max_turns = 3;
+    this.max_dice = 5;
 
-    this.turn_indicator = new TurnIndicator(this.max_turns);
-    this.dice_container = config.dice_container;
-    this.move_container = config.move_container;
-
-    this.mode = "move";
-
+    this.current_mode = "move";
     this.current_turn = 1;
-
     this.isRolling = false;
 
-    this.dice =
-      config.dice ||
-      [1, 2, 3, 4, 5].map(
-        (value, index) =>
-          new Die({ game: this, initial_value: value, id: index })
-      );
+    this.turn_indicator = new TurnIndicator(this.max_turns);
+    this.dice_tray = new DiceTray(this.max_dice);
+    this.move_container = config.move_container;
   }
 
   enterMode(mode) {
-    this.mode = mode;
-    switch (mode) {
-      case "score":
-        break;
-    }
+    this.current_mode = mode;
   }
 
   advanceTurn() {
@@ -47,37 +35,27 @@ class Game {
     }
   }
 
-  async rollDice() {
-    if (!this.isRolling) {
-      this.toggleMovesAccess();
-      this.advanceTurn();
-
-      this.isRolling = true;
-
-      const dice_to_roll = this.dice.filter((die) => !die.isHeld);
-
-      await Promise.all(dice_to_roll.map((die, index) => die.roll(index)));
-
-      this.isRolling = false;
-
-      if (this.current_turn > 3) {
-        this.enterMode("score");
-      } else {
-        this.toggleMovesAccess();
-      }
-    }
-  }
-
   initialize() {
     this.turn_indicator.initialize(this.container);
-
-    this.dice.forEach((die) => {
-      this.dice_container.append(die.element);
-    });
+    this.dice_tray.initialize(this.container);
 
     this.move_container.append(
-      new Button({ content: "Roll", callback: () => this.rollDice() }).element
+      new Button({
+        content: "Roll",
+        callback: () => {
+          this.toggleMovesAccess();
+          this.advanceTurn();
+          this.dice_tray.roll();
+
+          if (this.current_turn > 3) {
+            this.enterMode("score");
+          } else {
+            this.toggleMovesAccess();
+          }
+        },
+      }).element
     );
+
     this.move_container.append(
       new Button({
         content: "Score",

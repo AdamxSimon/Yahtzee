@@ -1,20 +1,19 @@
 class Die {
-  constructor(config) {
-    this.game = config.game;
-    this.value = config.initial_value || getRandomDieValue();
+  constructor(tray) {
+    this.tray = tray;
+    this.value = getRandomDieValue();
 
     this.isHeld = false;
 
     this.element = document.createElement("div");
     this.element.className = "die";
-    this.element.id = config.id;
     this.element.innerHTML = this.value;
 
     this.element.onclick = () => this.toggleHold();
   }
 
   toggleHold() {
-    if (!this.game.isRolling) {
+    if (!this.tray.isRolling) {
       this.isHeld = !this.isHeld;
       this.element.classList.toggle("held");
     }
