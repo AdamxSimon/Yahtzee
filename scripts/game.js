@@ -11,7 +11,7 @@ class Game {
 
     this.turn_indicator = new TurnIndicator(this.max_turns);
     this.dice_tray = new DiceTray(this.max_dice);
-    this.move_container = config.move_container;
+    this.move_interface = new MoveInterface(this);
   }
 
   enterMode(mode) {
@@ -28,40 +28,21 @@ class Game {
     this.turn_indicator.reset();
   }
 
-  toggleMovesAccess() {
-    for (const child of this.move_container.children) {
-      child.classList.toggle("delayed-confirmation");
-      child.classList.toggle("disabled");
+  async roll() {
+    this.move_interface.toggleButtonAccess();
+    this.advanceTurn();
+    await this.dice_tray.roll();
+
+    if (this.current_turn > 3) {
+      this.enterMode("score");
+    } else {
+      this.move_interface.toggleButtonAccess();
     }
   }
 
   initialize() {
     this.turn_indicator.initialize(this.container);
     this.dice_tray.initialize(this.container);
-
-    this.move_container.append(
-      new Button({
-        content: "Roll",
-        callback: () => {
-          this.toggleMovesAccess();
-          this.advanceTurn();
-          this.dice_tray.roll();
-
-          if (this.current_turn > 3) {
-            this.enterMode("score");
-          } else {
-            this.toggleMovesAccess();
-          }
-        },
-      }).element
-    );
-
-    this.move_container.append(
-      new Button({
-        content: "Score",
-        callback: () => console.log("Score"),
-        should_delay_confirmation: true,
-      }).element
-    );
+    this.move_interface.initialize();
   }
 }

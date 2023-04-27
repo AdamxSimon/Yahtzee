@@ -8,30 +8,23 @@
     <title>Yahtzee</title>
   </head>
   <body>
-    <div id="root">
-      <div id="dice-container"></div>
-      <div id="move-container"></div>
-    </div>
+    <div id="root"></div>
 
     <!-- Scripts -->
 
     <script src="./scripts/utils.js"></script>
-    <script src="./scripts/die.js"></script>
     <script src="./scripts/button.js"></script>
     <script src="./scripts/turn-indicator.js"></script>
+    <script src="./scripts/die.js"></script>
     <script src="./scripts/dice-tray.js"></script>
+    <script src="./scripts/move-interface.js"></script>
     <script src="./scripts/game.js"></script>
 
     <!-- Initialization -->
 
     <script>
       const root = document.getElementById("root");
-      const move_container = document.getElementById("move-container");
-
-      const game = new Game({
-        container: root,
-        move_container,
-      });
+      const game = new Game({ container: root });
       game.initialize();
     </script>
   </body>

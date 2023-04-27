@@ -64,7 +64,7 @@ body {
   animation: roll 1s linear;
 }
 
-#move-container {
+#move-interface {
   display: flex;
   gap: 16px;
 }

@@ -14,7 +14,7 @@ class Button {
       };
     }
 
-    this.element.innerHTML = config.content;
+    this.element.innerHTML = config.id;
     this.element.onclick = () => {
       if (
         !this.should_delay_confirmation &&
