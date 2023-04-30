@@ -9,6 +9,10 @@ class Game {
     this.current_turn = 1;
     this.isRolling = false;
 
+    this.header = document.createElement("div");
+    this.header.id = "header";
+    this.header.innerHTML = "YAHTZEE!";
+
     this.turn_indicator = new TurnIndicator(this.max_turns);
     this.dice_tray = new DiceTray(this.max_dice);
     this.move_interface = new MoveInterface(this);
@@ -17,6 +21,9 @@ class Game {
   enterMode(mode) {
     this.current_mode = mode;
     switch (mode) {
+      case "move":
+        this.dice_tray.should_allow_interaction = true;
+        break;
       case "score":
         this.dice_tray.should_allow_interaction = false;
         break;
@@ -46,6 +53,7 @@ class Game {
   }
 
   initialize() {
+    this.container.append(this.header);
     this.turn_indicator.initialize(this.container);
     this.dice_tray.initialize(this.container);
     this.move_interface.initialize();

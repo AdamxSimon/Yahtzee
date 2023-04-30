@@ -3,6 +3,10 @@ class Button {
     this.element = document.createElement("div");
     this.element.className = "button";
 
+    this.text_element = document.createElement("div");
+    this.text_element.className = "button-text";
+    this.text_element.innerHTML = config.id;
+
     this.isDisabled = false;
 
     this.should_delay_confirmation = config.should_delay_confirmation || false;
@@ -14,7 +18,6 @@ class Button {
       };
     }
 
-    this.element.innerHTML = config.id;
     this.element.onclick = () => {
       if (!this.should_delay_confirmation && !this.isDisabled) {
         config.callback();
@@ -33,6 +36,7 @@ class Button {
   }
 
   initialize(container) {
+    this.element.append(this.text_element);
     container.append(this.element);
   }
 }
