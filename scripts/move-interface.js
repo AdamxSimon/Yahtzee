@@ -12,20 +12,48 @@ class MoveInterface {
       }),
       new Button({
         id: "Score",
-        callback: () => console.log("Score"),
+        callback: () => this.game.enterMode("score"),
         should_delay_confirmation: true,
       }),
     ];
   }
 
-  toggleButtonAccess() {
+  disableButton(button) {
+    switch (button) {
+      case "roll":
+        this.buttons[0].disable();
+        break;
+      case "score":
+        this.buttons[1].disable();
+        break;
+    }
+  }
+
+  enableButton(button) {
+    switch (button) {
+      case "roll":
+        this.buttons[0].enable();
+        break;
+      case "score":
+        this.buttons[1].enable();
+        break;
+    }
+  }
+
+  disableAllButtons() {
     this.buttons.forEach((button) => {
-      button.toggleAccess();
+      button.disable();
     });
   }
 
-  initialize() {
-    this.game.container.append(this.element);
+  enableAllButtons() {
+    this.buttons.forEach((button) => {
+      button.enable();
+    });
+  }
+
+  initialize(container) {
+    container.append(this.element);
     this.buttons.forEach((button) => {
       button.initialize(this.element);
     });

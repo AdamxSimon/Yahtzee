@@ -1,6 +1,6 @@
 class Die {
-  constructor(tray) {
-    this.tray = tray;
+  constructor(config) {
+    this.tray = config.tray;
 
     this.value = "";
     this.isHeld = false;
@@ -8,6 +8,8 @@ class Die {
     this.element = document.createElement("div");
     this.element.className = "die";
     this.element.innerHTML = this.value;
+
+    this.element.style.animationDelay = `${config.index * 100}ms`;
 
     this.element.onclick = () => this.toggleHold();
   }
@@ -23,11 +25,10 @@ class Die {
     }
   }
 
-  async roll(delay) {
+  async roll() {
     return new Promise((resolve) => {
       this.value = getRandomDieValue();
       this.element.innerHTML = "";
-      this.element.style.animationDelay = `${delay * 100}ms`;
 
       this.element.onanimationend = () => {
         this.element.classList.remove("rolling");
@@ -38,6 +39,19 @@ class Die {
 
       this.element.classList.add("rolling");
     });
+  }
+
+  confirm() {
+    this.element.classList.remove("held");
+    this.element.classList.add("confirmed");
+  }
+
+  reset() {
+    this.isHeld = false;
+    this.element.classList.remove("confirmed");
+    this.element.onanimationend = undefined;
+    this.value = "";
+    this.element.innerHTML = this.value;
   }
 
   render() {

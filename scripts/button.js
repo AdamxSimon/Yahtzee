@@ -7,8 +7,6 @@ class Button {
     this.text_element.className = "button-text";
     this.text_element.innerHTML = config.id;
 
-    this.isDisabled = false;
-
     this.should_delay_confirmation = config.should_delay_confirmation || false;
 
     if (this.should_delay_confirmation) {
@@ -25,18 +23,30 @@ class Button {
     };
   }
 
-  toggleAccess() {
-    this.isDisabled = !this.isDisabled;
+  disable() {
+    this.isDisabled = true;
 
     if (this.should_delay_confirmation) {
-      this.element.classList.toggle("delayed-confirmation");
+      this.element.classList.remove("delayed-confirmation");
     }
 
-    this.element.classList.toggle("disabled");
+    this.element.classList.add("disabled");
+  }
+
+  enable() {
+    this.isDisabled = false;
+
+    if (this.should_delay_confirmation) {
+      this.element.classList.add("delayed-confirmation");
+    }
+
+    this.element.classList.remove("disabled");
   }
 
   initialize(container) {
     this.element.append(this.text_element);
     container.append(this.element);
+
+    this.disable();
   }
 }

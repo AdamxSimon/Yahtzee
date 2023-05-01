@@ -7,7 +7,9 @@ class DiceTray {
 
     this.isRolling = false;
 
-    this.dice = new Array(max_dice).fill().map(() => new Die(this));
+    this.dice = new Array(max_dice)
+      .fill()
+      .map((value, index) => new Die({ tray: this, index }));
   }
 
   async roll() {
@@ -16,10 +18,26 @@ class DiceTray {
 
       const dice_to_roll = this.dice.filter((die) => !die.isHeld);
 
-      await Promise.all(dice_to_roll.map((die, index) => die.roll(index)));
+      await Promise.all(dice_to_roll.map((die) => die.roll()));
 
       this.isRolling = false;
     }
+  }
+
+  getValues() {
+    return this.dice.map((die) => die.value);
+  }
+
+  confirmAllDice() {
+    this.dice.forEach((die) => {
+      die.confirm();
+    });
+  }
+
+  resetAllDice() {
+    this.dice.forEach((die) => {
+      die.reset();
+    });
   }
 
   initialize(container) {

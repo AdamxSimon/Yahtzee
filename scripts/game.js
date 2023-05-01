@@ -1,12 +1,20 @@
 class Game {
   constructor(config) {
-    this.container = config.container;
+    this.root = config.root;
+
+    this.game_container = document.createElement("div");
+    this.game_container.id = "game-container";
+
+    this.move_container = document.createElement("div");
+    this.move_container.id = "move-container";
+
+    this.score_container = document.createElement("div");
+    this.score_container.id = "score-container";
 
     this.max_turns = 3;
     this.max_dice = 5;
 
-    this.current_mode = "move";
-    this.current_turn = 1;
+    this.rolls_taken = 0;
     this.isRolling = false;
 
     this.header = document.createElement("div");
@@ -16,46 +24,70 @@ class Game {
     this.turn_indicator = new TurnIndicator(this.max_turns);
     this.dice_tray = new DiceTray(this.max_dice);
     this.move_interface = new MoveInterface(this);
+
+    this.score_sheet = new ScoreSheet(this);
+
+    this.events = { roll: new Event("roll"), score: new Event("score") };
+
+    this.#addEventListeners();
+  }
+
+  #addEventListeners() {
+    addEventListener("roll", () => {
+      if (this.rolls_taken === 3) {
+        this.enterMode("score");
+      } else {
+        this.move_interface.enableAllButtons();
+      }
+    });
+    addEventListener("score", () => {
+      this.enterMode("move");
+    });
   }
 
   enterMode(mode) {
     this.current_mode = mode;
     switch (mode) {
       case "move":
+        this.resetRolls();
         this.dice_tray.should_allow_interaction = true;
+        this.move_interface.enableButton("roll");
         break;
       case "score":
+        this.dice_tray.confirmAllDice();
         this.dice_tray.should_allow_interaction = false;
+        this.move_interface.disableAllButtons();
         break;
     }
   }
 
-  advanceTurn() {
-    this.current_turn++;
-    this.turn_indicator.advance(this.current_turn);
-  }
-
-  resetTurns() {
-    this.current_turn = 1;
+  resetRolls() {
+    this.rolls_taken = 0;
     this.turn_indicator.reset();
+    this.dice_tray.resetAllDice();
   }
 
   async roll() {
-    this.move_interface.toggleButtonAccess();
-    this.advanceTurn();
+    this.move_interface.disableAllButtons();
+    this.rolls_taken++;
+    this.turn_indicator.advance(this.rolls_taken + 1);
     await this.dice_tray.roll();
-
-    if (this.current_turn > 3) {
-      this.enterMode("score");
-    } else {
-      this.move_interface.toggleButtonAccess();
-    }
+    dispatchEvent(this.events.roll);
   }
 
   initialize() {
-    this.container.append(this.header);
-    this.turn_indicator.initialize(this.container);
-    this.dice_tray.initialize(this.container);
-    this.move_interface.initialize();
+    this.root.append(this.header);
+    this.root.append(this.game_container);
+
+    this.game_container.append(this.move_container);
+    this.game_container.append(this.score_container);
+
+    this.turn_indicator.initialize(this.move_container);
+    this.dice_tray.initialize(this.move_container);
+    this.move_interface.initialize(this.move_container);
+
+    this.score_sheet.initialize(this.score_container);
+
+    this.enterMode("move");
   }
 }

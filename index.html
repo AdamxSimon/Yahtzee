@@ -19,13 +19,16 @@
     <script src="./scripts/die.js"></script>
     <script src="./scripts/dice-tray.js"></script>
     <script src="./scripts/move-interface.js"></script>
+    <script src="./scripts/scoring-row.js"></script>
+    <script src="./scripts/scoring-container.js"></script>
+    <script src="./scripts/score-sheet.js"></script>
     <script src="./scripts/game.js"></script>
 
     <!-- Initialization -->
 
     <script>
       const root = document.getElementById("root");
-      const game = new Game({ container: root });
+      const game = new Game({ root });
       game.initialize();
     </script>
   </body>
