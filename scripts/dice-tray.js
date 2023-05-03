@@ -18,7 +18,7 @@ class DiceTray {
 
       const dice_to_roll = this.dice.filter((die) => !die.isHeld);
 
-      await Promise.all(dice_to_roll.map((die) => die.roll()));
+      await Promise.all(dice_to_roll.map((die, index) => die.roll(index)));
 
       this.isRolling = false;
     }

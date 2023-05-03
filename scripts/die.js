@@ -1,6 +1,7 @@
 class Die {
   constructor(config) {
     this.tray = config.tray;
+    this.index = config.index;
 
     this.value = "";
     this.isHeld = false;
@@ -9,7 +10,7 @@ class Die {
     this.element.className = "die";
     this.element.innerHTML = this.value;
 
-    this.element.style.animationDelay = `${config.index * 100}ms`;
+    this.element.style.animationDelay = `${this.index * 100}ms`;
 
     this.element.onclick = () => this.toggleHold();
   }
@@ -25,10 +26,12 @@ class Die {
     }
   }
 
-  async roll() {
+  async roll(index) {
     return new Promise((resolve) => {
       this.value = getRandomDieValue();
       this.element.innerHTML = "";
+
+      this.element.style.animationDelay = `${index * 100}ms`;
 
       this.element.onanimationend = () => {
         this.element.classList.remove("rolling");
@@ -42,6 +45,7 @@ class Die {
   }
 
   confirm() {
+    this.element.style.animationDelay = `${this.index * 100}ms`;
     this.element.classList.remove("held");
     this.element.classList.add("confirmed");
   }

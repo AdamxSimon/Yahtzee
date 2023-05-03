@@ -1,8 +1,9 @@
 class ScoringRow {
   constructor(config) {
     this.game = config.game;
+    this.score_container = config.score_container;
 
-    this.container = config.container;
+    this.is_calculated = !!config.is_calculated;
 
     this.element = document.createElement("tr");
     this.element.className = "scoring-row";
@@ -14,13 +15,15 @@ class ScoringRow {
     this.value_container.className = "scoring-value";
 
     this.name = config.name;
-    this.value = "";
-
-    this.isScored = false;
+    this.value = config.value || "";
 
     this.evaluate = config.evaluate;
 
-    this.#addEventListeners();
+    this.isScored = false;
+
+    if (!this.is_calculated) {
+      this.#addEventListeners();
+    }
   }
 
   #addEventListeners() {
@@ -39,20 +42,27 @@ class ScoringRow {
     });
 
     this.value_container.addEventListener("click", () => {
-      this.score();
+      if (this.game.current_mode === "score" && !this.isScored) {
+        this.score();
+      }
     });
   }
 
   score() {
     this.isScored = true;
-    this.value_container.innerHTML = this.evaluate(
-      this.game.dice_tray.getValues()
-    );
+    const amount = this.evaluate(this.game.dice_tray.getValues());
+    this.updateValue(amount);
+    this.score_container.updateTotal(amount);
     dispatchEvent(this.game.events.score);
   }
 
-  initialize() {
-    this.container.append(this.element);
+  updateValue(amount) {
+    this.value = amount;
+    this.value_container.innerHTML = amount;
+  }
+
+  initialize(container) {
+    container.append(this.element);
     this.element.append(this.name_container);
     this.element.append(this.value_container);
 

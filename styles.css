@@ -105,15 +105,16 @@ body {
 }
 
 #score-sheet {
-  background-color: white;
-  border: none;
-  box-shadow: 0 0 4px 0 black;
   display: flex;
-  flex-direction: column;
+  gap: 16px;
 }
 
-#upper-scoring-container {
+#upper-scoring-container,
+#lower-scoring-container {
+  height: fit-content;
+  background-color: white;
   border-collapse: collapse;
+  box-shadow: 0 0 4px 0 black;
 }
 
 .scoring-row {
@@ -123,7 +124,7 @@ body {
 .scoring-name,
 .scoring-value {
   height: 2em;
-  width: 4em;
+  width: 6em;
   border: 1px solid black;
   display: flex;
   justify-content: center;
