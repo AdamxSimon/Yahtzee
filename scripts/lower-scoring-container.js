@@ -8,13 +8,13 @@ class LowerScoringContainer {
 
     this.scoring_rows = [
       new ScoringRow({
-        name: "3 Kind",
+        name: "3 of a Kind",
         evaluate: (values) => this.evaluateRow(values, "3 of a Kind"),
         game: this.game,
         score_container: this,
       }),
       new ScoringRow({
-        name: "4 Kind",
+        name: "4 of a Kind",
         evaluate: (values) => this.evaluateRow(values, "4 of a Kind"),
         game: this.game,
         score_container: this,
@@ -26,13 +26,13 @@ class LowerScoringContainer {
         score_container: this,
       }),
       new ScoringRow({
-        name: "Small Str.",
+        name: "Small Straight",
         evaluate: (values) => this.evaluateRow(values, "Small Straight"),
         game: this.game,
         score_container: this,
       }),
       new ScoringRow({
-        name: "Large Str.",
+        name: "Large Straight",
         evaluate: (values) => this.evaluateRow(values, "Large Straight"),
         game: this.game,
         score_container: this,
@@ -44,8 +44,15 @@ class LowerScoringContainer {
         score_container: this,
       }),
       new ScoringRow({
+        name: "Bonus Yahtzees",
+        value: "0",
+        evaluate: (values, id) => this.evaluateRow(values, "Bonus Yahtzee"),
+        game: this.game,
+        score_container: this,
+      }),
+      new ScoringRow({
         name: "Chance",
-        evaluate: (values) => this.evaluateRow(values, "Chance"),
+        evaluate: (values, id) => this.evaluateRow(values, "Chance"),
         game: this.game,
         score_container: this,
       }),
@@ -118,7 +125,7 @@ class LowerScoringContainer {
     }
 
     if (row === "Small Straight") {
-      const range = [];
+      const range = new Array(2).fill();
       for (const value of values) {
         if (!counts.hasOwnProperty(value)) {
           counts[value] = 1;
@@ -127,14 +134,14 @@ class LowerScoringContainer {
           if (counts[value] === 3) {
             return 0;
           }
+        }
 
-          if (!range[0] || counts[value] < range[0]) {
-            range[0] = counts[value];
-          }
+        if (!range[0] || value < range[0]) {
+          range[0] = value;
+        }
 
-          if (!range[1] || counts[value] > range[1]) {
-            range[1] = counts[value];
-          }
+        if (!range[1] || value > range[1]) {
+          range[1] = value;
         }
       }
 
@@ -170,6 +177,21 @@ class LowerScoringContainer {
       is_eligible = Object.keys(counts).length === 1;
 
       return is_eligible ? 50 : 0;
+    }
+
+    if (row === "Bonus Yahtzee") {
+      for (const value of values) {
+        if (!counts.hasOwnProperty(value)) {
+          counts[value] = 1;
+        } else {
+          counts[value] += 1;
+        }
+      }
+
+      is_eligible =
+        Object.keys(counts).length === 1 && this.score_sheet.has_scored_yahtzee;
+
+      return is_eligible ? 100 : 0;
     }
 
     if (row === "Chance") {

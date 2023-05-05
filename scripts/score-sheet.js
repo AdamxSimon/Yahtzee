@@ -15,6 +15,8 @@ class ScoreSheet {
       score_sheet: this,
     });
 
+    this.has_scored_yahtzee = false;
+
     this.score = 0;
   }
 

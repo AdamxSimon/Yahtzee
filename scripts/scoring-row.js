@@ -29,35 +29,53 @@ class ScoringRow {
   #addEventListeners() {
     this.value_container.addEventListener("mouseenter", () => {
       if (this.game.current_mode === "score" && !this.isScored) {
-        this.value_container.innerHTML = this.evaluate(
-          this.game.dice_tray.getValues()
-        );
+        this.value_container.innerHTML =
+          +this.value + this.evaluate(this.game.dice_tray.getValues());
       }
     });
 
     this.value_container.addEventListener("mouseleave", () => {
-      if (!this.isScored) {
-        this.value_container.innerHTML = "";
+      if (this.game.current_mode === "score" && !this.isScored) {
+        this.value_container.innerHTML = this.value;
       }
     });
 
     this.value_container.addEventListener("click", () => {
       if (this.game.current_mode === "score" && !this.isScored) {
+        if (
+          this.name === "Bonus Yahtzees" &&
+          (!this.score_container.score_sheet.has_scored_yahtzee ||
+            !this.evaluate(this.game.dice_tray.getValues()))
+        ) {
+          return;
+        }
+
         this.score();
       }
     });
   }
 
   score() {
-    this.isScored = true;
     const amount = this.evaluate(this.game.dice_tray.getValues());
     this.updateValue(amount);
     this.score_container.updateTotal(amount);
-    dispatchEvent(this.game.events.score);
+
+    if (this.name === "Yahtzee" && amount) {
+      this.score_container.score_sheet.has_scored_yahtzee = true;
+    }
+
+    if (this.name !== "Bonus Yahtzees") {
+      this.isScored = true;
+      dispatchEvent(this.game.events.score);
+    }
   }
 
   updateValue(amount) {
-    this.value = amount;
+    if (this.name === "Bonus Yahtzees") {
+      this.value = +this.value + amount;
+    } else {
+      this.value = amount;
+    }
     this.value_container.innerHTML = amount;
   }
 

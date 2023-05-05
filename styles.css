@@ -124,7 +124,7 @@ body {
 .scoring-name,
 .scoring-value {
   height: 2em;
-  width: 6em;
+  width: 10em;
   border: 1px solid black;
   display: flex;
   justify-content: center;
