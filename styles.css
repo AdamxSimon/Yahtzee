@@ -106,7 +106,8 @@ body {
 
 #score-sheet {
   display: flex;
-  gap: 16px;
+  flex-direction: column;
+  box-shadow: 0 0 4px 0 black;
 }
 
 #upper-scoring-container,
@@ -114,7 +115,6 @@ body {
   height: fit-content;
   background-color: white;
   border-collapse: collapse;
-  box-shadow: 0 0 4px 0 black;
 }
 
 .scoring-row {

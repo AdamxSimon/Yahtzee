@@ -28,7 +28,7 @@ class UpperScoringContainer {
 
     this.total = 0;
     this.total_row = new ScoringRow({
-      name: "Total",
+      name: "Upper Total",
       value: "0",
       evaluate: (amount) => {
         this.updateTotal(amount);
