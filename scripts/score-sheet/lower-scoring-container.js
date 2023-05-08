@@ -60,7 +60,7 @@ class LowerScoringContainer {
 
     this.total = 0;
     this.total_row = new ScoringRow({
-      name: "Lower Total",
+      name: "Total",
       value: "0",
       evaluate: (amount) => {
         this.updateTotal(amount);

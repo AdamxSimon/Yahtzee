@@ -2,9 +2,6 @@ class Game {
   constructor(config) {
     this.root = config.root;
 
-    this.game_container = document.createElement("div");
-    this.game_container.id = "game-container";
-
     this.move_container = document.createElement("div");
     this.move_container.id = "move-container";
 
@@ -77,16 +74,15 @@ class Game {
 
   initialize() {
     this.root.append(this.header);
-    this.root.append(this.game_container);
-
-    this.game_container.append(this.move_container);
-    this.game_container.append(this.score_container);
+    this.root.append(this.move_container);
+    this.root.append(this.score_container);
 
     this.turn_indicator.initialize(this.move_container);
     this.dice_tray.initialize(this.move_container);
     this.move_interface.initialize(this.move_container);
 
-    this.score_sheet.initialize(this.score_container);
+    this.score_sheet.mount(this.score_container);
+    this.score_sheet.initialize();
 
     this.enterMode("move");
   }
