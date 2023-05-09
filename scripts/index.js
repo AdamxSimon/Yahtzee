@@ -1,28 +1,26 @@
 class Game {
-  constructor(config) {
-    this.root = config.root;
-
-    this.move_container = document.createElement("div");
-    this.move_container.id = "move-container";
-
-    this.score_container = document.createElement("div");
-    this.score_container.id = "score-container";
-
+  constructor() {
     this.max_turns = 3;
     this.max_dice = 5;
+
+    this.scoring_rounds_elapsed = 0;
 
     this.rolls_taken = 0;
     this.isRolling = false;
 
-    this.header = document.createElement("div");
-    this.header.id = "header";
-    this.header.innerHTML = "YAHTZEE!";
+    this.header_element = document.createElement("i");
+    this.header_element.id = "header";
+    this.header_element.textContent = "YAHTZEE!";
+
+    this.rolling_interface_element = document.createElement("div");
+    this.rolling_interface_element.id = "rolling-interface";
 
     this.turn_indicator = new TurnIndicator(this.max_turns);
     this.dice_tray = new DiceTray(this.max_dice);
-    this.move_interface = new MoveInterface(this);
 
     this.score_sheet = new ScoreSheet(this);
+
+    this.move_interface = new MoveInterface(this);
 
     this.events = { roll: new Event("roll"), score: new Event("score") };
 
@@ -38,7 +36,13 @@ class Game {
       }
     });
     addEventListener("score", () => {
-      this.enterMode("move");
+      this.scoring_rounds_elapsed++;
+
+      if (this.scoring_rounds_elapsed < 13) {
+        this.enterMode("move");
+      } else {
+        this.finalize();
+      }
     });
   }
 
@@ -72,18 +76,20 @@ class Game {
     dispatchEvent(this.events.roll);
   }
 
+  mount(container) {
+    container.append(this.header_element);
+    container.append(this.rolling_interface_element);
+
+    this.turn_indicator.initialize(this.rolling_interface_element);
+    this.dice_tray.initialize(this.rolling_interface_element);
+
+    this.score_sheet.mount(container);
+    this.move_interface.initialize(container);
+  }
+
   initialize() {
-    this.root.append(this.header);
-    this.root.append(this.move_container);
-    this.root.append(this.score_container);
-
-    this.turn_indicator.initialize(this.move_container);
-    this.dice_tray.initialize(this.move_container);
-    this.move_interface.initialize(this.move_container);
-
-    this.score_sheet.mount(this.score_container);
-    this.score_sheet.initialize();
-
     this.enterMode("move");
   }
+
+  finalize() {}
 }

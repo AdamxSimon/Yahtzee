@@ -47,7 +47,8 @@
 
     <script>
       const root = document.getElementById("root");
-      const game = new Game({ root });
+      const game = new Game();
+      game.mount(root);
       game.initialize();
     </script>
   </body>

@@ -17,22 +17,19 @@ body {
 #root {
   background: linear-gradient(#e66465, #9198e5);
   background-size: 200% 200%;
-  padding: 20px;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
-  background-position-x: 0;
-  background-position-y: 0;
-  animation: flow 2s ease infinite alternate;
+  align-items: center;
+  animation: background-flow 2s ease infinite alternate;
 }
 
 #header {
   text-align: center;
   font-size: 4em;
-  font-style: italic;
 }
 
-#move-container {
+#rolling-interface {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -90,11 +87,6 @@ body {
 #move-interface {
   display: flex;
   gap: 16px;
-}
-
-#score-container {
-  display: flex;
-  justify-content: center;
 }
 
 #score-sheet {
@@ -194,7 +186,7 @@ body {
   background-color: gray;
 }
 
-@keyframes flow {
+@keyframes background-flow {
   from {
     background-position-x: 0;
     background-position-y: 0;
