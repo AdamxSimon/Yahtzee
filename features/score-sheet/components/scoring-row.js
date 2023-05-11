@@ -24,6 +24,8 @@ class ScoringRow {
     if (!this.is_calculated) {
       this.#addEventListeners();
     }
+
+    this.events = { score: new Event("score") };
   }
 
   #addEventListeners() {
@@ -66,7 +68,7 @@ class ScoringRow {
 
     if (this.name !== "Bonus Yahtzees") {
       this.isScored = true;
-      dispatchEvent(this.game.events.score);
+      dispatchEvent(this.events.score);
     }
   }
 

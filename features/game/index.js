@@ -26,11 +26,9 @@ class Game {
 
     this.dice_tray = new DiceTray({ game: this, dice_count: this.max_dice });
 
-    this.score_sheet = new ScoreSheet(this);
+    this.score_sheet = new ScoreSheet({ game: this });
 
     this.move_interface = new MoveInterface({ game: this });
-
-    this.events = { score: new Event("score") };
 
     this.#addEventListeners();
   }

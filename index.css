@@ -12,67 +12,16 @@ body,
 }
 
 body {
-  background: linear-gradient(#e66465, #9198e5);
-  background-size: 200% 200%;
   margin: 0;
-  animation: background-flow 2s ease infinite alternate;
 }
 
 #root {
+  background: linear-gradient(#e66465, #9198e5);
+  background-size: 200% 200%;
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-#score-sheet {
-  background-color: white;
-  display: flex;
-  flex-direction: column;
-  box-shadow: 0 0 4px 0 black;
-}
-
-#upper-scoring-container,
-#lower-scoring-container {
-  border-collapse: collapse;
-  display: block;
-}
-
-.scoring-row {
-  display: flex;
-}
-
-.scoring-name,
-.scoring-value,
-.tab {
-  height: 2em;
-  width: 10em;
-  border: 1px solid black;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.scoring-name {
-  font-weight: bold;
-}
-
-.scoring-value {
-  cursor: pointer;
-}
-
-#tab-container {
-  display: flex;
-}
-
-.tab {
-  flex: 1;
-  text-align: center;
-  cursor: pointer;
-}
-
-.tab.selected {
-  background-color: green;
-  color: white;
+  animation: background-flow 2s ease infinite alternate;
 }
 
 @keyframes background-flow {

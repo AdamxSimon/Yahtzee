@@ -1,6 +1,6 @@
 class ScoreSheet {
-  constructor(game) {
-    this.game = game;
+  constructor(config) {
+    this.game = config.game;
 
     this.element = document.createElement("div");
     this.element.id = "score-sheet";
@@ -68,8 +68,10 @@ class ScoreSheet {
 
   mount(container) {
     container.append(this.element);
+
     this.upper_container.mount(this.element);
     this.lower_container.mount(this.element);
+
     this.lower_container.element.style.display = "none";
     this.element.append(this.tab_container);
     this.tab_container.append(this.upper_section_tab);
