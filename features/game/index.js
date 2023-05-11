@@ -10,6 +10,9 @@ class Game {
     this.scoring_rounds_elapsed = 0;
     this.max_scoring_rounds = 13;
 
+    this.element = document.createElement("div");
+    this.element.id = "game";
+
     this.header_element = document.createElement("i");
     this.header_element.id = "header";
     this.header_element.textContent = "YAHTZEE!";
@@ -25,7 +28,7 @@ class Game {
 
     this.score_sheet = new ScoreSheet(this);
 
-    this.move_interface = new MoveInterface(this);
+    this.move_interface = new MoveInterface({ game: this });
 
     this.events = { score: new Event("score") };
 
@@ -79,18 +82,22 @@ class Game {
   }
 
   mount(container) {
-    container.append(this.header_element);
-    container.append(this.rolling_interface_element);
+    container.append(this.element);
+
+    this.element.append(this.header_element);
+    this.element.append(this.rolling_interface_element);
 
     this.turn_indicator.mount(this.rolling_interface_element);
     this.dice_tray.mount(this.rolling_interface_element);
 
-    this.score_sheet.mount(container);
-    this.move_interface.initialize(container);
+    this.score_sheet.mount(this.element);
+    this.move_interface.mount(this.element);
   }
 
   initialize() {
     this.dice_tray.initialize();
+    this.move_interface.initialize();
+
     this.enterMode("rolling");
   }
 

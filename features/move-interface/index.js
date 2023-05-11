@@ -1,42 +1,38 @@
 class MoveInterface {
-  constructor(game) {
-    this.game = game;
-
-    this.element = document.createElement("div");
-    this.element.id = "move-interface";
+  constructor(config) {
+    this.game = config.game;
 
     this.buttons = [
       new Button({
-        id: "Roll",
+        id: "roll",
+        text: "Roll",
         callback: () => this.game.dice_tray.roll(),
       }),
       new Button({
-        id: "Score",
+        id: "score",
+        text: "Score",
         callback: () => this.game.enterMode("scoring"),
         should_delay_confirmation: true,
       }),
     ];
+
+    this.element = document.createElement("div");
+    this.element.id = "move-interface";
   }
 
-  disableButton(button) {
-    switch (button) {
-      case "roll":
-        this.buttons[0].disable();
-        break;
-      case "score":
-        this.buttons[1].disable();
-        break;
+  disableButton(id) {
+    for (const button of this.buttons) {
+      if (button.id === id) {
+        button.disable();
+      }
     }
   }
 
-  enableButton(button) {
-    switch (button) {
-      case "roll":
-        this.buttons[0].enable();
-        break;
-      case "score":
-        this.buttons[1].enable();
-        break;
+  enableButton(id) {
+    for (const button of this.buttons) {
+      if (button.id === id) {
+        button.enable();
+      }
     }
   }
 
@@ -52,10 +48,16 @@ class MoveInterface {
     });
   }
 
-  initialize(container) {
+  mount(container) {
     container.append(this.element);
     this.buttons.forEach((button) => {
-      button.initialize(this.element);
+      button.mount(this.element);
+    });
+  }
+
+  initialize() {
+    this.buttons.forEach((button) => {
+      button.initialize();
     });
   }
 }
