@@ -1,0 +1,48 @@
+#dice-tray {
+  display: flex;
+  gap: 16px;
+}
+
+.die {
+  height: 40px;
+  width: 40px;
+  background-color: white;
+  border-radius: 4px;
+  box-shadow: 0 0 4px 0 black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.die.held {
+  background-color: green;
+  color: white;
+}
+
+.die.rolling {
+  animation: rolling 1s linear;
+}
+
+.die.locked {
+  animation: locking 1s ease forwards;
+}
+
+@keyframes rolling {
+  to {
+    transform: rotate(1440deg);
+  }
+}
+
+@keyframes locking {
+  50% {
+    transform: scale(1.2);
+  }
+
+  100% {
+    background-color: black;
+    color: white;
+    transform: scale(1);
+  }
+}

@@ -1,49 +1,66 @@
 class DiceTray {
-  constructor(max_dice) {
+  constructor(config) {
+    this.game = config.game;
+
+    this.is_disabled = true;
+
+    this.dice_count = config.dice_count;
+    this.dice = new Array(this.dice_count)
+      .fill()
+      .map((_, index) => new Die({ game: this.game, tray: this, index }));
+
+    this.events = {
+      rollstart: new Event("rollstart"),
+      rollend: new Event("rollend"),
+    };
+
     this.element = document.createElement("div");
     this.element.id = "dice-tray";
-
-    this.should_allow_interaction = true;
-
-    this.isRolling = false;
-
-    this.dice = new Array(max_dice)
-      .fill()
-      .map((value, index) => new Die({ tray: this, index }));
   }
 
   async roll() {
-    if (!this.isRolling) {
-      this.isRolling = true;
+    this.disable();
 
-      const dice_to_roll = this.dice.filter((die) => !die.isHeld);
+    dispatchEvent(this.events.rollstart);
 
-      await Promise.all(dice_to_roll.map((die, index) => die.roll(index)));
+    const dice_to_roll = this.dice.filter((die) => !die.is_held);
+    await Promise.all(dice_to_roll.map((die, index) => die.roll(index)));
 
-      this.isRolling = false;
-    }
+    dispatchEvent(this.events.rollend);
+
+    this.enable();
   }
 
   getValues() {
     return this.dice.map((die) => die.value);
   }
 
-  confirmAllDice() {
+  lockAllDice() {
+    this.disable();
     this.dice.forEach((die) => {
-      die.confirm();
+      die.lock();
     });
   }
 
-  resetAllDice() {
-    this.dice.forEach((die) => {
-      die.reset();
-    });
+  disable() {
+    this.is_disabled = true;
   }
 
-  initialize(container) {
+  enable() {
+    this.is_disabled = false;
+  }
+
+  mount(container) {
     container.append(this.element);
     this.dice.forEach((die) => {
-      this.element.append(die.element);
+      die.mount(this.element);
+    });
+  }
+
+  initialize() {
+    this.disable();
+    this.dice.forEach((die) => {
+      die.initialize();
     });
   }
 }

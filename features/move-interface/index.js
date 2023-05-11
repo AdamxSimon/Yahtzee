@@ -8,11 +8,11 @@ class MoveInterface {
     this.buttons = [
       new Button({
         id: "Roll",
-        callback: () => this.game.roll(),
+        callback: () => this.game.dice_tray.roll(),
       }),
       new Button({
         id: "Score",
-        callback: () => this.game.enterMode("score"),
+        callback: () => this.game.enterMode("scoring"),
         should_delay_confirmation: true,
       }),
     ];

@@ -3,8 +3,8 @@ class TurnIndicator {
     this.element = document.createElement("div");
     this.element.id = "turn-indicator";
 
-    this.max_turns = config.max_turns;
-    this.turn_dots = new Array(this.max_turns).fill().map(() => new TurnDot());
+    this.turn_count = config.turn_count;
+    this.turn_dots = new Array(this.turn_count).fill().map(() => new TurnDot());
   }
 
   advance(turn) {

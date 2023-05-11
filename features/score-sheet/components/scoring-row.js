@@ -28,20 +28,20 @@ class ScoringRow {
 
   #addEventListeners() {
     this.value_container.addEventListener("mouseenter", () => {
-      if (this.game.current_mode === "score" && !this.isScored) {
+      if (this.game.current_mode === "scoring" && !this.isScored) {
         this.value_container.innerHTML =
           +this.value + this.evaluate(this.game.dice_tray.getValues());
       }
     });
 
     this.value_container.addEventListener("mouseleave", () => {
-      if (this.game.current_mode === "score" && !this.isScored) {
+      if (this.game.current_mode === "scoring" && !this.isScored) {
         this.value_container.innerHTML = this.value;
       }
     });
 
     this.value_container.addEventListener("click", () => {
-      if (this.game.current_mode === "score" && !this.isScored) {
+      if (this.game.current_mode === "scoring" && !this.isScored) {
         if (
           this.name === "Bonus Yahtzees" &&
           (!this.score_container.score_sheet.has_scored_yahtzee ||
