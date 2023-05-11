@@ -1,0 +1,15 @@
+#turn-indicator {
+  display: flex;
+  gap: 16px;
+}
+
+.turn-dot {
+  height: 8px;
+  width: 8px;
+  border: 1px solid black;
+  border-radius: 50%;
+}
+
+.turn-dot.filled {
+  background-color: black;
+}

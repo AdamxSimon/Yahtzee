@@ -5,14 +5,14 @@ class TurnDot {
   }
 
   fill() {
-    this.element.classList.add("completed");
+    this.element.classList.add("filled");
   }
 
-  reset() {
-    this.element.classList.remove("completed");
+  initialize() {
+    this.element.classList.remove("filled");
   }
 
-  initialize(container) {
+  mount(container) {
     container.append(this.element);
   }
 }

@@ -24,35 +24,6 @@ body {
   animation: background-flow 2s ease infinite alternate;
 }
 
-#header {
-  text-align: center;
-  font-size: 4em;
-}
-
-#rolling-interface {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 16px;
-}
-
-#turn-indicator {
-  display: flex;
-  gap: 16px;
-}
-
-.turn-dot {
-  height: 8px;
-  width: 8px;
-  border: 1px solid black;
-  border-radius: 50%;
-}
-
-.turn-dot.completed {
-  background-color: black;
-}
-
 #dice-tray {
   display: flex;
   gap: 16px;

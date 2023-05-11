@@ -1,0 +1,12 @@
+#header {
+  text-align: center;
+  font-size: 4em;
+}
+
+#rolling-interface {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+}

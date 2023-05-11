@@ -4,44 +4,38 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="./styles.css" />
+
+    <!-- Styles -->
+
+    <link rel="stylesheet" href="./index.css" />
+    <link rel="stylesheet" href="./features/game/index.css" />
+    <link rel="stylesheet" href="./features/turn-indicator/index.css" />
+
     <title>Yahtzee</title>
   </head>
   <body>
     <div id="root"></div>
 
-    <!-- Utils -->
+    <!-- Scripts -->
 
-    <script src="./scripts/utils.js"></script>
+    <script src="./utils.js"></script>
 
-    <!-- Components -->
+    <script src="./features/components/button.js"></script>
 
-    <script src="./scripts/components/button.js"></script>
+    <script src="./features/turn-indicator/components/turn-dot.js"></script>
+    <script src="./features/turn-indicator/index.js"></script>
 
-    <!-- Turn Indicator -->
+    <script src="./features/dice-tray/components/die.js"></script>
+    <script src="./features/dice-tray/index.js"></script>
 
-    <script src="./scripts/turn-indicator/components/turn-dot.js"></script>
-    <script src="./scripts/turn-indicator/index.js"></script>
+    <script src="./features/score-sheet/components/scoring-row.js"></script>
+    <script src="./features/score-sheet/components/upper-scoring-container.js"></script>
+    <script src="./features/score-sheet/components/lower-scoring-container.js"></script>
+    <script src="./features/score-sheet/index.js"></script>
 
-    <!-- Dice Tray -->
+    <script src="./features/move-interface/index.js"></script>
 
-    <script src="./scripts/dice-tray/components/die.js"></script>
-    <script src="./scripts/dice-tray/index.js"></script>
-
-    <!-- Score Sheet -->
-
-    <script src="./scripts/score-sheet/components/scoring-row.js"></script>
-    <script src="./scripts/score-sheet/components/upper-scoring-container.js"></script>
-    <script src="./scripts/score-sheet/components/lower-scoring-container.js"></script>
-    <script src="./scripts/score-sheet/index.js"></script>
-
-    <!-- Move Interface -->
-
-    <script src="./scripts/move-interface/index.js"></script>
-
-    <!-- Game -->
-
-    <script src="./scripts/index.js"></script>
+    <script src="./features/game/index.js"></script>
 
     <!-- Initialization -->
 

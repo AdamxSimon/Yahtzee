@@ -1,11 +1,11 @@
 class Game {
   constructor() {
-    this.max_turns = 3;
     this.max_dice = 5;
 
     this.scoring_rounds_elapsed = 0;
 
-    this.rolls_taken = 0;
+    this.max_rolls_per_round = 3;
+    this.rolls_taken_this_round = 0;
     this.isRolling = false;
 
     this.header_element = document.createElement("i");
@@ -15,7 +15,10 @@ class Game {
     this.rolling_interface_element = document.createElement("div");
     this.rolling_interface_element.id = "rolling-interface";
 
-    this.turn_indicator = new TurnIndicator(this.max_turns);
+    this.turn_indicator = new TurnIndicator({
+      max_turns: this.max_rolls_per_round,
+    });
+
     this.dice_tray = new DiceTray(this.max_dice);
 
     this.score_sheet = new ScoreSheet(this);
@@ -29,7 +32,7 @@ class Game {
 
   #addEventListeners() {
     addEventListener("roll", () => {
-      if (this.rolls_taken === 3) {
+      if (this.rolls_taken_this_round === 3) {
         this.enterMode("score");
       } else {
         this.move_interface.enableAllButtons();
@@ -63,15 +66,15 @@ class Game {
   }
 
   resetRolls() {
-    this.rolls_taken = 0;
-    this.turn_indicator.reset();
+    this.rolls_taken_this_round = 0;
+    this.turn_indicator.initialize();
     this.dice_tray.resetAllDice();
   }
 
   async roll() {
     this.move_interface.disableAllButtons();
-    this.rolls_taken++;
-    this.turn_indicator.advance(this.rolls_taken + 1);
+    this.rolls_taken_this_round++;
+    this.turn_indicator.advance(this.rolls_taken_this_round);
     await this.dice_tray.roll();
     dispatchEvent(this.events.roll);
   }
@@ -80,7 +83,7 @@ class Game {
     container.append(this.header_element);
     container.append(this.rolling_interface_element);
 
-    this.turn_indicator.initialize(this.rolling_interface_element);
+    this.turn_indicator.mount(this.rolling_interface_element);
     this.dice_tray.initialize(this.rolling_interface_element);
 
     this.score_sheet.mount(container);
