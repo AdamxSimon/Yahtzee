@@ -16,7 +16,7 @@ class Die {
     this.element.style.animationDelay = `${this.index * 100}ms`;
 
     this.element.onclick = () => {
-      if (!this.tray.isDisabled) {
+      if (!this.tray.is_disabled) {
         this.toggleHold();
       }
     };

@@ -45,7 +45,7 @@ class LowerScoringContainer {
       }),
       new ScoringRow({
         name: "Bonus Yahtzees",
-        value: "0",
+        initial_value: "0",
         evaluate: (values, id) => this.evaluateRow(values, "Bonus Yahtzee"),
         game: this.game,
         score_container: this,
@@ -60,11 +60,8 @@ class LowerScoringContainer {
 
     this.total = 0;
     this.total_row = new ScoringRow({
-      name: "Total",
-      value: "0",
-      evaluate: (amount) => {
-        this.updateTotal(amount);
-      },
+      name: "Lower Total",
+      initial_value: "0",
       is_calculated: true,
       game: this.game,
       score_container: this,
@@ -217,8 +214,15 @@ class LowerScoringContainer {
   mount(container) {
     container.append(this.element);
     this.scoring_rows.forEach((row) => {
-      row.initialize(this.element);
+      row.mount(this.element);
     });
-    this.total_row.initialize(this.element);
+    this.total_row.mount(this.element);
+  }
+
+  initialize() {
+    this.scoring_rows.forEach((row) => {
+      row.initialize();
+    });
+    this.total_row.initialize();
   }
 }

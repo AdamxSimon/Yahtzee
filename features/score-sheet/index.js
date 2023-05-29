@@ -2,9 +2,6 @@ class ScoreSheet {
   constructor(config) {
     this.game = config.game;
 
-    this.element = document.createElement("div");
-    this.element.id = "score-sheet";
-
     this.upper_container = new UpperScoringContainer({
       game: this.game,
       score_sheet: this,
@@ -13,6 +10,17 @@ class ScoreSheet {
     this.lower_container = new LowerScoringContainer({
       game: this.game,
       score_sheet: this,
+    });
+
+    this._selected_section = "upper";
+
+    this.has_scored_yahtzee = false;
+
+    this.total_row = new ScoringRow({
+      name: "Grand Total",
+      initial_value: "0",
+      is_calculated: true,
+      game: this.game,
     });
 
     this.tab_container = document.createElement("div");
@@ -36,11 +44,8 @@ class ScoreSheet {
       }
     };
 
-    this._selected_section = "upper";
-
-    this.has_scored_yahtzee = false;
-
-    this.score = 0;
+    this.element = document.createElement("div");
+    this.element.id = "score-sheet";
   }
 
   /**
@@ -73,10 +78,18 @@ class ScoreSheet {
     this.lower_container.mount(this.element);
 
     this.lower_container.element.style.display = "none";
+
+    this.total_row.mount(this.element);
+
     this.element.append(this.tab_container);
     this.tab_container.append(this.upper_section_tab);
     this.tab_container.append(this.lower_section_tab);
   }
 
-  initialize() {}
+  initialize() {
+    this.total = 0;
+    this.upper_container.initialize();
+    this.lower_container.initialize();
+    this.total_row.initialize();
+  }
 }

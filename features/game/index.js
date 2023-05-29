@@ -94,6 +94,7 @@ class Game {
 
   initialize() {
     this.dice_tray.initialize();
+    this.score_sheet.initialize();
     this.move_interface.initialize();
 
     this.enterMode("rolling");

@@ -3,10 +3,7 @@ class UpperScoringContainer {
     this.game = config.game;
     this.score_sheet = config.score_sheet;
 
-    this.element = document.createElement("table");
-    this.element.id = "upper-scoring-container";
-
-    this.scoring_rows = new Array(6).fill().map((value, index) => {
+    this.scoring_rows = new Array(6).fill().map((_, index) => {
       return new ScoringRow({
         name: `${index + 1}s`,
         evaluate: (values) => {
@@ -20,7 +17,7 @@ class UpperScoringContainer {
     this.bonus = 0;
     this.bonus_row = new ScoringRow({
       name: "Bonus",
-      value: "0",
+      initial_value: "0",
       is_calculated: true,
       game: this.game,
       score_container: this,
@@ -28,15 +25,15 @@ class UpperScoringContainer {
 
     this.total = 0;
     this.total_row = new ScoringRow({
-      name: "Total",
-      value: "0",
-      evaluate: (amount) => {
-        this.updateTotal(amount);
-      },
+      name: "Upper Total",
+      initial_value: "0",
       is_calculated: true,
       game: this.game,
       score_container: this,
     });
+
+    this.element = document.createElement("table");
+    this.element.id = "upper-scoring-container";
   }
 
   evaluateRow(values, number) {
@@ -67,9 +64,17 @@ class UpperScoringContainer {
   mount(container) {
     container.append(this.element);
     this.scoring_rows.forEach((row) => {
+      row.mount(this.element);
+    });
+    this.bonus_row.mount(this.element);
+    this.total_row.mount(this.element);
+  }
+
+  initialize() {
+    this.scoring_rows.forEach((row) => {
       row.initialize(this.element);
     });
-    this.bonus_row.initialize(this.element);
-    this.total_row.initialize(this.element);
+    this.bonus_row.initialize();
+    this.total_row.initialize();
   }
 }

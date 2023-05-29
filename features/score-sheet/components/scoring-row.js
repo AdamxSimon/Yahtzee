@@ -15,13 +15,12 @@ class ScoringRow {
     this.value_container.className = "scoring-value";
 
     this.name = config.name;
-    this.value = config.value || "";
-
-    this.evaluate = config.evaluate;
+    this.initial_value = config.initial_value || "";
 
     this.isScored = false;
 
     if (!this.is_calculated) {
+      this.evaluate = config.evaluate;
       this.#addEventListeners();
     }
 
@@ -61,6 +60,7 @@ class ScoringRow {
     const amount = this.evaluate(this.game.dice_tray.getValues());
     this.updateValue(amount);
     this.score_container.updateTotal(amount);
+    this.score_container.score_sheet.total_row.updateValue(amount);
 
     if (this.name === "Yahtzee" && amount) {
       this.score_container.score_sheet.has_scored_yahtzee = true;
@@ -81,11 +81,14 @@ class ScoringRow {
     this.value_container.innerHTML = amount;
   }
 
-  initialize(container) {
+  mount(container) {
     container.append(this.element);
     this.element.append(this.name_container);
     this.element.append(this.value_container);
+  }
 
+  initialize() {
+    this.value = this.initial_value;
     this.name_container.innerHTML = this.name;
     this.value_container.innerHTML = this.value;
   }
