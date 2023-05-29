@@ -11,16 +11,32 @@ class ScoringRow {
     this.name_container = document.createElement("td");
     this.name_container.className = "scoring-name";
 
-    this.value_container = document.createElement("td");
-    this.value_container.className = "scoring-value";
-
     this.name = config.name;
     this.initial_value = config.initial_value || "";
 
+    if (this.name === "Bonus Yahtzees") {
+      this.current_bonus_index = 0;
+      this.bonus_yahtzee_boxes = new Array(6).fill().map(
+        (_, index) =>
+          new BonusYahtzeeBox({
+            scoring_row: this,
+            index,
+          })
+      );
+    }
+
+    this.value_container = document.createElement("td");
+    this.value_container.className = "scoring-value";
+
+    if (this.name !== "Bonus Yahtzees") {
+      this.value_container.style.cursor = "pointer";
+    }
+
     this.isScored = false;
 
-    if (!this.is_calculated) {
-      this.evaluate = config.evaluate;
+    this.evaluate = config.evaluate;
+
+    if (!this.is_calculated && this.name !== "Bonus Yahtzees") {
       this.#addEventListeners();
     }
 
@@ -58,7 +74,14 @@ class ScoringRow {
 
   score() {
     const amount = this.evaluate(this.game.dice_tray.getValues());
-    this.updateValue(amount);
+
+    if (this.name !== "Bonus Yahtzees") {
+      this.updateValue(amount);
+    } else {
+      this.score_container.updateBonusYahtzees();
+      this.current_bonus_index++;
+    }
+
     this.score_container.updateTotal(amount);
     this.score_container.score_sheet.total_row.updateValue(amount);
 
@@ -70,26 +93,39 @@ class ScoringRow {
       this.isScored = true;
       dispatchEvent(this.events.score);
     }
+
+    this.score_container.score_sheet.last_scored_row = this.name;
   }
 
   updateValue(amount) {
-    if (this.name === "Bonus Yahtzees") {
+    if (this.name === "Bonus Total") {
       this.value = +this.value + amount;
     } else {
       this.value = amount;
     }
-    this.value_container.innerHTML = amount;
+    this.value_container.innerHTML = this.value;
   }
 
   mount(container) {
     container.append(this.element);
     this.element.append(this.name_container);
     this.element.append(this.value_container);
+    if (this.name === "Bonus Yahtzees") {
+      this.bonus_yahtzee_boxes.forEach((box) => {
+        box.mount(this.value_container);
+      });
+    }
   }
 
   initialize() {
     this.value = this.initial_value;
     this.name_container.innerHTML = this.name;
-    this.value_container.innerHTML = this.value;
+    if (this.name !== "Bonus Yahtzees") {
+      this.value_container.innerHTML = this.value;
+    } else {
+      this.bonus_yahtzee_boxes.forEach((box) => {
+        box.initialize();
+      });
+    }
   }
 }

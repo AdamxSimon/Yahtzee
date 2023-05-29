@@ -45,18 +45,26 @@ class LowerScoringContainer {
       }),
       new ScoringRow({
         name: "Bonus Yahtzees",
+        evaluate: (values) => this.evaluateRow(values, "Bonus Yahtzee"),
+        game: this.game,
+        score_container: this,
+      }),
+      new ScoringRow({
+        name: "Bonus Total",
         initial_value: "0",
-        evaluate: (values, id) => this.evaluateRow(values, "Bonus Yahtzee"),
+        is_calculated: true,
         game: this.game,
         score_container: this,
       }),
       new ScoringRow({
         name: "Chance",
-        evaluate: (values, id) => this.evaluateRow(values, "Chance"),
+        evaluate: (values) => this.evaluateRow(values, "Chance"),
         game: this.game,
         score_container: this,
       }),
     ];
+
+    this.bonusYahtzeeTotal = 0;
 
     this.total = 0;
     this.total_row = new ScoringRow({
@@ -204,6 +212,12 @@ class LowerScoringContainer {
         return total + current;
       }, 0);
     }
+  }
+
+  updateBonusYahtzees() {
+    this.scoring_rows
+      .find((row) => row.name === "Bonus Total")
+      .updateValue(100);
   }
 
   updateTotal(amount) {

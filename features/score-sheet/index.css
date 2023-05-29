@@ -31,7 +31,19 @@
 }
 
 .scoring-value {
+  display: flex;
+  gap: 2px;
+}
+
+.bonus-yahtzee-box {
+  height: 20px;
+  width: 20px;
+  border: 2px solid black;
   cursor: pointer;
+}
+
+.bonus-yahtzee-box.checked {
+  background-color: black;
 }
 
 #tab-container {
